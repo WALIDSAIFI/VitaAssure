@@ -4,7 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-2.7.0-brightgreen?logo=springboot&logoColor=white)
 ![Angular](https://img.shields.io/badge/Angular-17-red?logo=angular&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?logo=postgresql&logoColor=white)
-![Security](https://img.shields.io/badge/Security-OAuth2-yellow?logo=lock&logoColor=white)
+![Security](https://img.shields.io/badge/Security-JWT-yellow?logo=jsonwebtokens&logoColor=white)
 
 ---
 
@@ -31,7 +31,7 @@
 - Génération de rapports détaillés et suivi des remboursements.
 
 ### Accès sécurisé :
-- Authentification via OAuth2.
+- Authentification via JWT (JSON Web Token) 🔑.
 - Gestion des rôles : Administrateurs, Fonctionnaires, Adhérents.
 
 ### Rapports et statistiques :
@@ -45,20 +45,18 @@
 ### Backend
 - **Langage** : Java 17 ☕
 - **Framework** : Spring Boot 🌱
+- **Sécurité** : Spring Security avec JWT pour une authentification stateless 🔒
 - **Base de données** : PostgreSQL 🐘
 
 ### Frontend
 - **Framework** : Angular 17 🅰️
-
-### Sécurité
-- Authentification OAuth2 🔒
-- Gestion des rôles et permissions.
 
 ---
 
 ## 🗂️ Architecture et contraintes techniques
 
 - **Architecture** : API REST avec séparation front-end/back-end.
+- **Authentification** : Basée sur JWT pour sécuriser les échanges entre le client et le serveur.
 - **Compatibilité** : Ordinateurs, tablettes et smartphones.
 - **Performance** : Support d'une forte volumétrie de données et requêtes.
 
@@ -81,13 +79,6 @@ Accédez aux maquettes via le lien suivant :
 
 ---
 
-## 📧 Contact
 
-Pour toute question ou collaboration, veuillez me contacter :
-
-- **Email** : _[votre email ici]_  
-- **LinkedIn** : _[votre profil LinkedIn ici]_
-
----
 
 ### 🏷️ Statut du Projet : **En cours de développement** 🚧
