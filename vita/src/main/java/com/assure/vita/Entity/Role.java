@@ -1,9 +1,8 @@
-package Entity;
-
+package com.assure.vita.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
 
-import java.util.Set;
 
 @Data
 @Entity
@@ -15,5 +14,5 @@ public class Role {
     private String nom;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<Utilisateur> utilisateurs;
+    private List<Utilisateur> utilisateurs;
 }

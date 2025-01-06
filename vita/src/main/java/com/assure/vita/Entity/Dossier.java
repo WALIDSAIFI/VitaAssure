@@ -1,4 +1,4 @@
-package Entity;
+package com.assure.vita.Entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
