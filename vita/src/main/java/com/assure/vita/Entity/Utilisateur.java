@@ -19,4 +19,7 @@ public class Utilisateur {
             joinColumns = @JoinColumn(name = "utilisateur_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }

@@ -7,16 +7,16 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring", uses = {RoleMapper.class})
+@Mapper(componentModel = "spring")
 public interface UtilisateurMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "role", source = "role")
     Utilisateur toEntity(UtilisateurRequestDTO requestDTO);
 
     UtilisateurResponseDTO toDto(Utilisateur utilisateur);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "role", source = "role")
     void updateEntity(UtilisateurRequestDTO requestDTO, @MappingTarget Utilisateur utilisateur);
 } 
