@@ -22,6 +22,6 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private SituationFamiliale situationFamiliale;
 
-    @OneToMany(mappedBy = "assure", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MembreFamille> membresFamille;
 }

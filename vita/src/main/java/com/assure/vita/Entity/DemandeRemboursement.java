@@ -12,8 +12,8 @@ public class DemandeRemboursement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dossier_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dossier_id", nullable = false, unique = true)
     private Dossier dossier;
 
     @Enumerated(EnumType.STRING)

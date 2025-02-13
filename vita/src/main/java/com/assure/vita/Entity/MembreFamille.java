@@ -12,11 +12,9 @@ public class MembreFamille {
 
     private String nom;
     private String prenom;
-
-    @Enumerated(EnumType.STRING)
-    private LienParente lienParente; // ENFANT ou CONJOINT
+    private String lienParente;
 
     @ManyToOne
-    @JoinColumn(name = "assure_id")
-    private Utilisateur assure;
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
 }

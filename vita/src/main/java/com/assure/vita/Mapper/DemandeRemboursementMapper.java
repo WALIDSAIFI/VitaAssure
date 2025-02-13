@@ -11,7 +11,7 @@ import org.mapstruct.MappingTarget;
 public interface DemandeRemboursementMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "dossier", ignore = true)
+    @Mapping(target = "dossier.id", source = "dossierId")
     DemandeRemboursement toEntity(DemandeRemboursementRequestDTO requestDTO);
 
     @Mapping(source = "dossier.id", target = "dossierId")
@@ -19,5 +19,5 @@ public interface DemandeRemboursementMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dossier", ignore = true)
-    void updateEntity(DemandeRemboursementRequestDTO requestDTO, @MappingTarget DemandeRemboursement demandeRemboursement);
+    void updateEntity(DemandeRemboursementRequestDTO requestDTO, @MappingTarget DemandeRemboursement entity);
 } 

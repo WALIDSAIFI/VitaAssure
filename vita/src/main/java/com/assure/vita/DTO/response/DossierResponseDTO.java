@@ -6,7 +6,7 @@ import java.util.List;
 @Data
 public class DossierResponseDTO {
     private Long id;
-    private Long assureId;
+    private Long utilisateurId;
     private String statut;
     private List<DemandeRemboursementResponseDTO> demandes;
 } 

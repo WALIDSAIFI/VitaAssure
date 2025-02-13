@@ -1,4 +1,4 @@
-package com.assure.vita.service;
+package com.assure.vita.Service.Interface;
 
 import com.assure.vita.Entity.Dossier;
 
