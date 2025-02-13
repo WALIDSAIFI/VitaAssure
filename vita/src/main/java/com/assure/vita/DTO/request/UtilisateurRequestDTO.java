@@ -1,10 +1,8 @@
 package com.assure.vita.DTO.request;
 
-import com.assure.vita.Entity.Role;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 public class UtilisateurRequestDTO {
