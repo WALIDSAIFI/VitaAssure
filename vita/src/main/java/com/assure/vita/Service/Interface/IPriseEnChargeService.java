@@ -1,7 +1,7 @@
 package com.assure.vita.Service.Interface;
 
 import com.assure.vita.Entity.PriseEnCharge;
-import com.assure.vita.Entity.StatutPriseEnCharge;
+import com.assure.vita.Enum.StatutPriseEnCharge;
 import java.util.List;
 import java.util.Optional;
 

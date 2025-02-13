@@ -1,7 +1,7 @@
 package com.assure.vita.DTO.response;
 
-import com.assure.vita.Entity.StatutDemande;
-import com.assure.vita.Entity.TypeDemande;
+import com.assure.vita.Enum.StatutDemande;
+import com.assure.vita.Enum.TypeDemande;
 import lombok.Data;
 import java.time.LocalDate;
 

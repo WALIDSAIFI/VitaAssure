@@ -1,6 +1,6 @@
 package com.assure.vita.DTO.request;
 
-import com.assure.vita.Entity.SituationFamiliale;
+import com.assure.vita.Enum.SituationFamiliale;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

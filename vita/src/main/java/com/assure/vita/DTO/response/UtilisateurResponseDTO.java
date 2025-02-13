@@ -1,6 +1,6 @@
 package com.assure.vita.DTO.response;
 
-import com.assure.vita.Entity.Role;
+import com.assure.vita.Enum.Role;
 import lombok.Data;
 
 import java.time.LocalDate;

@@ -1,7 +1,7 @@
 package com.assure.vita.Service.impl;
 
 import com.assure.vita.Entity.Dossier;
-import com.assure.vita.Entity.StatutDossier;
+import com.assure.vita.Enum.StatutDossier;
 import com.assure.vita.Entity.Rapport;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Exception.ResourceNotFoundException;

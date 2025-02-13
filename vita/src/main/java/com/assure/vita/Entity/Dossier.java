@@ -1,5 +1,6 @@
 package com.assure.vita.Entity;
 
+import com.assure.vita.Enum.StatutDossier;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.assure.vita.DTO.response;
 
-import com.assure.vita.Entity.StatutPriseEnCharge;
+import com.assure.vita.Enum.StatutPriseEnCharge;
 import lombok.Data;
 import java.time.LocalDate;
 

@@ -1,6 +1,6 @@
 package com.assure.vita.DTO.response;
 
-import com.assure.vita.Entity.LienParente;
+import com.assure.vita.Enum.LienParente;
 import lombok.Data;
 
 @Data

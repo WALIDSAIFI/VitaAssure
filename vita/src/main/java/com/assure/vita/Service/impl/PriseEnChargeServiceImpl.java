@@ -1,7 +1,7 @@
 package com.assure.vita.Service.impl;
 
 import com.assure.vita.Entity.PriseEnCharge;
-import com.assure.vita.Entity.StatutPriseEnCharge;
+import com.assure.vita.Enum.StatutPriseEnCharge;
 import com.assure.vita.Entity.Rapport;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Exception.ResourceNotFoundException;

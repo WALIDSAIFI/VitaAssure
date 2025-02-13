@@ -1,7 +1,7 @@
 package com.assure.vita.Repository;
 
 import com.assure.vita.Entity.PriseEnCharge;
-import com.assure.vita.Entity.StatutPriseEnCharge;
+import com.assure.vita.Enum.StatutPriseEnCharge;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
