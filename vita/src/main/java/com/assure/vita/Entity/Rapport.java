@@ -27,4 +27,8 @@ public class Rapport {
 
     @Column(name = "date_rapport", nullable = false)
     private LocalDate dateRapport;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prise_en_charge_id")
+    private PriseEnCharge priseEnCharge;
 } 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,4 +24,14 @@ public class Dossier {
 
     @OneToOne(mappedBy = "dossier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private DemandeRemboursement demande;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatutDossier statut = StatutDossier.EN_ATTENTE;
+
+    @Column(length = 500)
+    private String commentaire;
+
+    @Column(name = "date_traitement")
+    private LocalDate dateTraitement;
 }

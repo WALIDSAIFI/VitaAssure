@@ -2,9 +2,12 @@ package com.assure.vita.Service.impl;
 
 import com.assure.vita.Entity.PriseEnCharge;
 import com.assure.vita.Entity.StatutPriseEnCharge;
+import com.assure.vita.Entity.Rapport;
+import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Repository.PriseEnChargeRepository;
 import com.assure.vita.Service.Interface.IPriseEnChargeService;
+import com.assure.vita.Service.Interface.IRapportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,7 @@ import java.util.Optional;
 public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
 
     private final PriseEnChargeRepository priseEnChargeRepository;
+    private final IRapportService rapportService;
 
     @Override
     public List<PriseEnCharge> getAllPrisesEnCharge() {
@@ -73,5 +77,43 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
             throw new ResourceNotFoundException("Prise en charge non trouvée avec l'ID : " + id);
         }
         priseEnChargeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public PriseEnCharge rejeterPriseEnCharge(Long id, String motifRejet) {
+        PriseEnCharge priseEnCharge = priseEnChargeRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Prise en charge non trouvée avec l'ID : " + id));
+
+        if (priseEnCharge.getStatut() != StatutPriseEnCharge.EN_ATTENTE) {
+            throw new BadRequestException("Cette prise en charge ne peut plus être rejetée");
+        }
+
+        // Créer un rapport de rejet
+        Rapport rapport = new Rapport();
+        rapport.setPriseEnCharge(priseEnCharge);
+        rapport.setDetails("Motif de rejet : " + motifRejet);
+        rapport.setDateRapport(LocalDate.now());
+        rapportService.saveRapport(rapport);
+
+        // Mettre à jour le statut
+        priseEnCharge.setStatut(StatutPriseEnCharge.REFUSEE);
+
+        return priseEnChargeRepository.save(priseEnCharge);
+    }
+
+    @Override
+    @Transactional
+    public PriseEnCharge accepterPriseEnCharge(Long id) {
+        PriseEnCharge priseEnCharge = priseEnChargeRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Prise en charge non trouvée avec l'ID : " + id));
+
+        if (priseEnCharge.getStatut() != StatutPriseEnCharge.EN_ATTENTE) {
+            throw new BadRequestException("Cette prise en charge ne peut plus être acceptée");
+        }
+
+        priseEnCharge.setStatut(StatutPriseEnCharge.ACCEPTEE);
+
+        return priseEnChargeRepository.save(priseEnCharge);
     }
 } 

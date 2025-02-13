@@ -10,5 +10,8 @@ public interface IDossierService {
     Optional<Dossier> getDossierById(Long id);
     List<Dossier> getDossiersByUtilisateurId(Long utilisateurId);
     Dossier saveDossier(Dossier dossier);
+    Dossier updateDossier(Long id, Dossier dossier);
     void deleteDossier(Long id);
+    Dossier rejeterDossier(Long id, String motifRejet);
+    Dossier accepterDossier(Long id);
 }
