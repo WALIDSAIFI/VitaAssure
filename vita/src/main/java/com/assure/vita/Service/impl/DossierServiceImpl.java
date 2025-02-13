@@ -37,7 +37,7 @@ public class DossierServiceImpl implements DossierService {
         Dossier dossier = dossierMapper.toEntity(dossierRequestDTO);
         
         Assure assure = assureRepository.findById(dossierRequestDTO.getAssureId())
-                .orElseThrow(() -> new RuntimeException("Assuré non trouvé"));
+                .orElseThrow(() -> new RuntimeException("Assure not found"));
         
         dossier.setAssure(assure);
         Dossier savedDossier = dossierRepository.save(dossier);

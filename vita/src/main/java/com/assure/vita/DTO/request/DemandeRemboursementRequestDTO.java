@@ -12,4 +12,4 @@ public class DemandeRemboursementRequestDTO {
     private Double montant;
     private LocalDate dateDemande;
     private StatutDemande statut;
-} 
+}

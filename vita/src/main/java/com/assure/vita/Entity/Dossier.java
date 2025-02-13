@@ -18,6 +18,6 @@ public class Dossier {
 
     private String statut;
 
-    @OneToMany(mappedBy = "dossier")
+    @OneToMany(mappedBy = "dossier", cascade = CascadeType.ALL)
     private List<DemandeRemboursement> demandes;
 }

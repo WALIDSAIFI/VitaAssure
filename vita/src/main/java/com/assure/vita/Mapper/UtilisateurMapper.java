@@ -11,12 +11,10 @@ import org.mapstruct.MappingTarget;
 public interface UtilisateurMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "role", source = "role")
     Utilisateur toEntity(UtilisateurRequestDTO requestDTO);
 
     UtilisateurResponseDTO toDto(Utilisateur utilisateur);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "role", source = "role")
     void updateEntity(UtilisateurRequestDTO requestDTO, @MappingTarget Utilisateur utilisateur);
 } 
