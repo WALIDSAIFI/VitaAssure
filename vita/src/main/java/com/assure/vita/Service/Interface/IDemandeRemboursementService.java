@@ -10,5 +10,6 @@ public interface IDemandeRemboursementService {
     Optional<DemandeRemboursement> getDemandeById(Long id);
     List<DemandeRemboursement> getDemandesByDossierId(Long dossierId);
     DemandeRemboursement saveDemande(DemandeRemboursement demande);
+    DemandeRemboursement updateDemande(Long id, DemandeRemboursement demande);
     void deleteDemande(Long id);
 }
