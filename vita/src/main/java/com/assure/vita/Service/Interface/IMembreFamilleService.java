@@ -9,5 +9,6 @@ public interface IMembreFamilleService {
     Optional<MembreFamille> getMembreFamilleById(Long id);
     List<MembreFamille> getMembresFamilleByUtilisateurId(Long utilisateurId);
     MembreFamille saveMembreFamille(MembreFamille membreFamille);
+    MembreFamille updateMembreFamille(Long id, MembreFamille membreFamille);
     void deleteMembreFamille(Long id);
 } 
