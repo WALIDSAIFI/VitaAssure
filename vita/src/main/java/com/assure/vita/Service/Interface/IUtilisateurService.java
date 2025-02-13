@@ -10,5 +10,6 @@ public interface IUtilisateurService {
     Optional<Utilisateur> getUtilisateurById(Long id);
     Optional<Utilisateur> getUtilisateurByEmail(String email);
     Utilisateur saveUtilisateur(Utilisateur utilisateur);
+    Utilisateur updateUtilisateur(Long id, Utilisateur utilisateur);
     void deleteUtilisateur(Long id);
 }

@@ -16,4 +16,5 @@ public class UtilisateurResponseDTO {
     private String telephone;
     private String email;
     private Role role;
+    private Boolean valider;
 } 

@@ -13,4 +13,5 @@ public class UtilisateurRequestDTO {
     private String adresse;
     private String telephone;
     private String email;
+    private Boolean valider;
 } 

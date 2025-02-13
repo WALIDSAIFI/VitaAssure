@@ -15,7 +15,7 @@ public interface DemandeRemboursementMapper {
     DemandeRemboursement toEntity(DemandeRemboursementRequestDTO requestDTO);
 
     @Mapping(source = "dossier.id", target = "dossierId")
-    DemandeRemboursementResponseDTO toDto(DemandeRemboursement demandeRemboursement);
+    DemandeRemboursementResponseDTO toDto(DemandeRemboursement demande);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "dossier", ignore = true)
