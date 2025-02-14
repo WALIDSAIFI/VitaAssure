@@ -1,13 +1,14 @@
 package com.assure.vita.DTO.request;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.assure.vita.Enum.StatutDossier;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Getter
-@Setter
 public class DossierRequestDTO {
+    @NotNull(message = "L'ID de l'utilisateur est obligatoire")
     private Long utilisateurId;
-    private String statut;
+    
+    private String commentaire;
+    private StatutDossier statut = StatutDossier.EN_ATTENTE;
 } 

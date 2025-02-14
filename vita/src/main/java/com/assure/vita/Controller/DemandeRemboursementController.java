@@ -37,6 +37,7 @@ public class DemandeRemboursementController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMINISTRATEUR') or @securityService.isDemandeOwner(#id)")
     public ResponseEntity<DemandeRemboursementResponseDTO> getDemandeById(@PathVariable Long id) {
         DemandeRemboursement demande = demandeService.getDemandeById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Demande non trouvée avec l'ID : " + id));

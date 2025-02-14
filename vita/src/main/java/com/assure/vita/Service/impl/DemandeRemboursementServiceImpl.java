@@ -93,4 +93,13 @@ public class DemandeRemboursementServiceImpl implements IDemandeRemboursementSer
 
         demandeRepository.deleteById(id);
     }
+
+    @Override
+    public DemandeRemboursement updateStatutDemande(Long id, StatutDemande statut) {
+        DemandeRemboursement demande = demandeRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Demande non trouvée avec l'ID : " + id));
+        
+        demande.setStatut(statut);
+        return demandeRepository.save(demande);
+    }
 } 
