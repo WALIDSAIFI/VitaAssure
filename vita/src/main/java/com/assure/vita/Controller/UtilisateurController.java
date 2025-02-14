@@ -48,7 +48,10 @@ public class UtilisateurController {
     public ResponseEntity<UtilisateurResponseDTO> updateUtilisateur(
             @PathVariable Long id,
             @Valid @RequestBody UtilisateurUpdateDTO updateDTO) {
-        Utilisateur utilisateur = utilisateurService.updateUtilisateur(id, utilisateurMapper.toEntity(updateDTO));
+        Utilisateur utilisateur = utilisateurService.getUtilisateurById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
+        utilisateurMapper.updateUtilisateur(updateDTO, utilisateur);
+        utilisateur = utilisateurService.updateUtilisateur(id, utilisateur);
         return ResponseEntity.ok(utilisateurMapper.toDto(utilisateur));
     }
 
