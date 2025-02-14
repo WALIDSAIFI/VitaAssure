@@ -2,12 +2,16 @@ package com.assure.vita.Security;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
 
@@ -23,8 +27,13 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", userPrincipal.getId());
+        claims.put("email", userPrincipal.getEmail());
+        claims.put("role", userPrincipal.getRole().name());
+
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

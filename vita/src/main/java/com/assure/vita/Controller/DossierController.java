@@ -13,10 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/dossiers")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class DossierController {
 
     private final IDossierService dossierService;
@@ -60,5 +60,4 @@ public class DossierController {
         Page<DossierResponseDTO> responsePage = dossierPage.map(dossierMapper::toDto);
         return ResponseEntity.ok(responsePage);
     }
-
 } 

@@ -1,6 +1,7 @@
 package com.assure.vita.Security;
 
 import com.assure.vita.Entity.Utilisateur;
+import com.assure.vita.Enum.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -16,14 +18,20 @@ public class UserPrincipal implements UserDetails {
     private Long id;
     private String email;
     private String password;
+    private Role role;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserPrincipal create(Utilisateur utilisateur) {
+        List<GrantedAuthority> authorities = Collections.singletonList(
+            new SimpleGrantedAuthority("ROLE_" + utilisateur.getRole().name())
+        );
+
         return new UserPrincipal(
             utilisateur.getId(),
             utilisateur.getEmail(),
             utilisateur.getPassword(),
-            Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+            utilisateur.getRole(),
+            authorities
         );
     }
 

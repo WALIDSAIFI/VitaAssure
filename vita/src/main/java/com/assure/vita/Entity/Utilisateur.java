@@ -1,5 +1,6 @@
 package com.assure.vita.Entity;
 
+import com.assure.vita.Enum.Role;
 import com.assure.vita.Enum.SituationFamiliale;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -42,6 +43,10 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     @Column(name = "situation_familiale")
     private SituationFamiliale situationFamiliale;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.ADHERENT;
 
     @Column(name = "valider", nullable = false)
     private Boolean valider = false;
