@@ -5,7 +5,10 @@ import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Repository.UtilisateurRepository;
 import com.assure.vita.Service.Interface.IUtilisateurService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,15 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class UtilisateurServiceImpl implements IUtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
-
-    @Autowired
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
-        this.utilisateurRepository = utilisateurRepository;
-    }
 
     @Override
     public List<Utilisateur> getAllUtilisateurs() {
@@ -90,6 +89,23 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
             throw new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id);
         }
         utilisateurRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Utilisateur> searchUtilisateurs(String nom, String email, Pageable pageable) {
+        Specification<Utilisateur> spec = Specification.where(null);
+        
+        if (nom != null && !nom.isEmpty()) {
+            spec = spec.and((root, query, cb) -> 
+                cb.like(cb.lower(root.get("nom")), "%" + nom.toLowerCase() + "%"));
+        }
+        
+        if (email != null && !email.isEmpty()) {
+            spec = spec.and((root, query, cb) -> 
+                cb.like(cb.lower(root.get("email")), "%" + email.toLowerCase() + "%"));
+        }
+        
+        return utilisateurRepository.findAll(spec, pageable);
     }
 
     private void validateUtilisateur(Utilisateur utilisateur) {
