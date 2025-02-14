@@ -34,6 +34,12 @@ public class DemandeRemboursement {
     @Column(name = "date_demande", nullable = false)
     private LocalDate dateDemande;
 
+    @Column(name = "date_traitement")
+    private LocalDate dateTraitement;
+
+    @Column(name = "commentaire", length = 1000)
+    private String commentaire;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatutDemande statut;

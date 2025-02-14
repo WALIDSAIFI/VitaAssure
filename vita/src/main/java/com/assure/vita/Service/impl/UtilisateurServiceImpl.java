@@ -23,8 +23,8 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
 
     @Override
-    public List<Utilisateur> getAllUtilisateurs() {
-        return utilisateurRepository.findAll();
+    public Page<Utilisateur> getAllUtilisateurs(Pageable pageable) {
+        return utilisateurRepository.findAll(pageable);
     }
 
     @Override
@@ -106,6 +106,22 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         }
         
         return utilisateurRepository.findAll(spec, pageable);
+    }
+
+    @Override
+    public Utilisateur validerUtilisateur(Long id) {
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
+        utilisateur.setValider(true);
+        return utilisateurRepository.save(utilisateur);
+    }
+
+    @Override
+    public Utilisateur bloquerUtilisateur(Long id) {
+        Utilisateur utilisateur = utilisateurRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
+        utilisateur.setValider(false);
+        return utilisateurRepository.save(utilisateur);
     }
 
     private void validateUtilisateur(Utilisateur utilisateur) {

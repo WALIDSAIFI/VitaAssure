@@ -2,12 +2,15 @@ package com.assure.vita.Service.impl;
 
 import com.assure.vita.Entity.DemandeRemboursement;
 import com.assure.vita.Entity.Dossier;
+import com.assure.vita.Enum.StatutDemande;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Repository.DemandeRemboursementRepository;
 import com.assure.vita.Repository.DossierRepository;
 import com.assure.vita.Service.Interface.IDemandeRemboursementService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +19,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class DemandeRemboursementServiceImpl implements IDemandeRemboursementService {
 
     private final DemandeRemboursementRepository demandeRepository;
     private final DossierRepository dossierRepository;
 
-    @Autowired
-    public DemandeRemboursementServiceImpl(DemandeRemboursementRepository demandeRepository,
-                                         DossierRepository dossierRepository) {
-        this.demandeRepository = demandeRepository;
-        this.dossierRepository = dossierRepository;
-    }
-
     @Override
-    public List<DemandeRemboursement> getAllDemandes() {
-        return demandeRepository.findAll();
+    public Page<DemandeRemboursement> getAllDemandes(Pageable pageable) {
+        return demandeRepository.findAll(pageable);
     }
 
     @Override
@@ -40,29 +37,19 @@ public class DemandeRemboursementServiceImpl implements IDemandeRemboursementSer
     }
 
     @Override
+    public Page<DemandeRemboursement> getDemandesByDossier(Long dossierId, Pageable pageable) {
+        return demandeRepository.findByDossierId(dossierId, pageable);
+    }
+
+    @Override
     public List<DemandeRemboursement> getDemandesByDossierId(Long dossierId) {
         return demandeRepository.findByDossierId(dossierId);
     }
 
     @Override
-    @Transactional
     public DemandeRemboursement saveDemande(DemandeRemboursement demande) {
-        if (demande.getDossier() == null || demande.getDossier().getId() == null) {
-            throw new BadRequestException("Le dossier est obligatoire");
-        }
-
-        Optional<Dossier> dossier = dossierRepository.findById(demande.getDossier().getId());
-        if (dossier.isEmpty()) {
-            throw new ResourceNotFoundException("Dossier non trouvé avec l'ID : " + demande.getDossier().getId());
-        }
-
-        if (demande.getDateDemande() == null) {
-            demande.setDateDemande(LocalDate.now());
-        }
-
-        demande.setDossier(dossier.get());
-        dossier.get().setDemande(demande);
-
+        demande.setDateDemande(LocalDate.now());
+        demande.setStatut(StatutDemande.EN_ATTENTE);
         return demandeRepository.save(demande);
     }
 
@@ -100,6 +87,18 @@ public class DemandeRemboursementServiceImpl implements IDemandeRemboursementSer
             .orElseThrow(() -> new ResourceNotFoundException("Demande non trouvée avec l'ID : " + id));
         
         demande.setStatut(statut);
+        demande.setDateTraitement(LocalDate.now());
+        return demandeRepository.save(demande);
+    }
+
+    @Override
+    public DemandeRemboursement rejeterDemande(Long id, String motif) {
+        DemandeRemboursement demande = demandeRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Demande non trouvée avec l'ID : " + id));
+        
+        demande.setStatut(StatutDemande.REJETE);
+        demande.setCommentaire(motif);
+        demande.setDateTraitement(LocalDate.now());
         return demandeRepository.save(demande);
     }
 } 
