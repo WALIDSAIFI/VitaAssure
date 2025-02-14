@@ -9,6 +9,8 @@ import com.assure.vita.Repository.DossierRepository;
 import com.assure.vita.Service.Interface.IDossierService;
 import com.assure.vita.Service.Interface.IRapportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +27,8 @@ public class DossierServiceImpl implements IDossierService {
     private final IRapportService rapportService;
 
     @Override
-    public List<Dossier> getAllDossiers() {
-        return dossierRepository.findAll();
+    public Page<Dossier> getAllDossiers(Pageable pageable) {
+        return dossierRepository.findAll(pageable);
     }
 
     @Override
@@ -35,8 +37,13 @@ public class DossierServiceImpl implements IDossierService {
     }
 
     @Override
-    public List<Dossier> getDossiersByUtilisateurId(Long utilisateurId) {
-        return dossierRepository.findByUtilisateurId(utilisateurId);
+    public Page<Dossier> getDossiersByUtilisateurId(Long utilisateurId, Pageable pageable) {
+        return dossierRepository.findByUtilisateurId(utilisateurId, pageable);
+    }
+
+    @Override
+    public Page<Dossier> getDossiersByStatut(StatutDossier statut, Pageable pageable) {
+        return dossierRepository.findByStatut(statut, pageable);
     }
 
     @Override

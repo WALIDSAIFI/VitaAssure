@@ -1,12 +1,15 @@
 package com.assure.vita.DTO.response;
 
+import com.assure.vita.Enum.StatutDossier;
 import lombok.Data;
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 public class DossierResponseDTO {
     private Long id;
     private Long utilisateurId;
-    private String statut;
-    private List<DemandeRemboursementResponseDTO> demandes;
+    private StatutDossier statut;
+    private String commentaire;
+    private LocalDate dateTraitement;
+    private DemandeRemboursementResponseDTO demande;
 } 
