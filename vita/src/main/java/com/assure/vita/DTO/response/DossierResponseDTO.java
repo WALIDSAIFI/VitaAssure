@@ -11,5 +11,4 @@ public class DossierResponseDTO {
     private StatutDossier statut;
     private String commentaire;
     private LocalDate dateTraitement;
-    private DemandeRemboursementResponseDTO demande;
 } 

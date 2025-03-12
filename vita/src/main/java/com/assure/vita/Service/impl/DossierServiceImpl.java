@@ -48,9 +48,7 @@ public class DossierServiceImpl implements IDossierService {
     @Override
     @Transactional
     public Dossier saveDossier(Dossier dossier) {
-        if (dossier.getStatut() == null) {
-            dossier.setStatut(StatutDossier.EN_ATTENTE);
-        }
+        dossier.setStatut(StatutDossier.EN_ATTENTE);
         return dossierRepository.save(dossier);
     }
 
@@ -91,7 +89,6 @@ public class DossierServiceImpl implements IDossierService {
 
         // Créer un rapport de rejet
         Rapport rapport = new Rapport();
-        rapport.setDemandeRemboursement(dossier.getDemande());
         rapport.setDetails("Motif de rejet : " + motifRejet);
         rapport.setDateRapport(LocalDate.now());
         rapportService.saveRapport(rapport);
@@ -99,6 +96,7 @@ public class DossierServiceImpl implements IDossierService {
         // Mettre à jour le statut du dossier
         dossier.setStatut(StatutDossier.REJETE);
         dossier.setDateTraitement(LocalDate.now());
+
 
         return dossierRepository.save(dossier);
     }
@@ -113,7 +111,7 @@ public class DossierServiceImpl implements IDossierService {
             throw new BadRequestException("Ce dossier ne peut plus être accepté");
         }
 
-        dossier.setStatut(StatutDossier.TRAITE);
+        dossier.setStatut(StatutDossier.ACCEPTE);
         dossier.setDateTraitement(LocalDate.now());
 
         return dossierRepository.save(dossier);

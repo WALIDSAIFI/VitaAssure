@@ -7,6 +7,7 @@ import com.assure.vita.Service.Interface.IAuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +26,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PutMapping("/validate/{userId}")
+    @PreAuthorize("hasAnyRole('ADMINISTRATEUR')")
+    public ResponseEntity<String> validateUser(@PathVariable Long userId) {
+        authService.validateUser(userId);
+        return ResponseEntity.ok("Compte utilisateur validé avec succès");
     }
 } 

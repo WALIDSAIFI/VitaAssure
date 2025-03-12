@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface IRapportService {
     List<Rapport> getAllRapports();
     Optional<Rapport> getRapportById(Long id);
-    List<Rapport> getRapportsByDemandeId(Long demandeId);
+    List<Rapport> getRapportsByDossierId(Long dossierId);
     Rapport saveRapport(Rapport rapport);
     Rapport updateRapport(Long id, Rapport rapport);
     void deleteRapport(Long id);

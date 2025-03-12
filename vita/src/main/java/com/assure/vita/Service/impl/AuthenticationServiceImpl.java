@@ -4,9 +4,10 @@ import com.assure.vita.DTO.request.LoginRequestDTO;
 import com.assure.vita.DTO.request.RegisterRequestDTO;
 import com.assure.vita.DTO.response.AuthResponseDTO;
 import com.assure.vita.Entity.Utilisateur;
-import com.assure.vita.Exception.BadRequestException;
+import com.assure.vita.Enum.Role;
+import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Repository.UtilisateurRepository;
-import com.assure.vita.Security.JwtTokenProvider;
+import com.assure.vita.Security.JwtService;
 import com.assure.vita.Service.Interface.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,14 +23,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider tokenProvider;
 
     @Override
     @Transactional
     public AuthResponseDTO register(RegisterRequestDTO request) {
         if (utilisateurRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new BadRequestException("Email déjà utilisé");
+            throw new RuntimeException("Email déjà utilisé");
         }
 
         Utilisateur utilisateur = new Utilisateur();
@@ -41,15 +42,18 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         utilisateur.setAdresse(request.getAdresse());
         utilisateur.setTelephone(request.getTelephone());
         utilisateur.setSituationFamiliale(request.getSituationFamiliale());
+        utilisateur.setRole(Role.ADHERENT);
         utilisateur.setValider(false);
 
         utilisateur = utilisateurRepository.save(utilisateur);
 
+        String token = jwtService.generateToken(utilisateur);
+
         return new AuthResponseDTO(
             utilisateur.getId(),
             utilisateur.getEmail(),
-            null,
-            "Inscription réussie"
+            token,
+            "Inscription réussie. En attente de validation par un administrateur."
         );
     }
 
@@ -59,9 +63,14 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        String token = tokenProvider.generateToken(authentication);
         Utilisateur utilisateur = utilisateurRepository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new BadRequestException("Utilisateur non trouvé"));
+            .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        if (!utilisateur.getValider()) {
+            throw new RuntimeException("Compte non validé. Veuillez attendre la validation par un administrateur.");
+        }
+
+        String token = jwtService.generateToken(utilisateur);
 
         return new AuthResponseDTO(
             utilisateur.getId(),
@@ -69,5 +78,19 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
             token,
             "Connexion réussie"
         );
+    }
+
+    @Override
+    @Transactional
+    public void validateUser(Long userId) {
+        Utilisateur utilisateur = utilisateurRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + userId));
+
+        if (utilisateur.getValider()) {
+            throw new RuntimeException("Ce compte est déjà validé");
+        }
+
+        utilisateur.setValider(true);
+        utilisateurRepository.save(utilisateur);
     }
 } 

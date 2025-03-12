@@ -38,4 +38,8 @@ public class PriseEnCharge {
 
     @Column(length = 500)
     private String commentaire;
+
+    @ManyToOne
+    @JoinColumn(name = "dossier_id")
+    private Dossier dossier;
 } 

@@ -23,8 +23,7 @@ public class Dossier {
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
 
-    @OneToOne(mappedBy = "dossier", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private DemandeRemboursement demande;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -30,8 +30,8 @@ public class RapportServiceImpl implements IRapportService {
     }
 
     @Override
-    public List<Rapport> getRapportsByDemandeId(Long demandeId) {
-        return rapportRepository.findByDemandeRemboursementId(demandeId);
+    public List<Rapport> getRapportsByDossierId(Long dossierId) {
+        return rapportRepository.findByDossierId(dossierId);
     }
 
     @Override

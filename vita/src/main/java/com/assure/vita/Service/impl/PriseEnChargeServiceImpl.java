@@ -1,8 +1,9 @@
 package com.assure.vita.Service.impl;
 
 import com.assure.vita.Entity.PriseEnCharge;
-import com.assure.vita.Enum.StatutPriseEnCharge;
 import com.assure.vita.Entity.Rapport;
+import com.assure.vita.Entity.Dossier;
+import com.assure.vita.Enum.StatutPriseEnCharge;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Repository.PriseEnChargeRepository;
@@ -81,7 +82,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
 
     @Override
     @Transactional
-    public PriseEnCharge rejeterPriseEnCharge(Long id, String motifRejet) {
+    public PriseEnCharge rejeterPriseEnCharge(Long id, String motif) {
         PriseEnCharge priseEnCharge = priseEnChargeRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Prise en charge non trouvée avec l'ID : " + id));
 
@@ -89,15 +90,14 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
             throw new BadRequestException("Cette prise en charge ne peut plus être rejetée");
         }
 
-        // Créer un rapport de rejet
-        Rapport rapport = new Rapport();
-        rapport.setPriseEnCharge(priseEnCharge);
-        rapport.setDetails("Motif de rejet : " + motifRejet);
-        rapport.setDateRapport(LocalDate.now());
-        rapportService.saveRapport(rapport);
+        priseEnCharge.setStatut(StatutPriseEnCharge.REJETEE);
+        priseEnCharge.setCommentaire(motif);
 
-        // Mettre à jour le statut
-        priseEnCharge.setStatut(StatutPriseEnCharge.REFUSEE);
+        // Créer un rapport pour la prise en charge rejetée
+        Rapport rapport = new Rapport();
+        rapport.setDetails("Prise en charge rejetée - Motif : " + motif);
+        rapport.setDossier(priseEnCharge.getDossier()); // Utiliser le dossier associé à la prise en charge
+        rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);
     }
@@ -113,6 +113,12 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
         }
 
         priseEnCharge.setStatut(StatutPriseEnCharge.ACCEPTEE);
+
+        // Créer un rapport pour la prise en charge acceptée
+        Rapport rapport = new Rapport();
+        rapport.setDetails("Prise en charge acceptée");
+        rapport.setDossier(priseEnCharge.getDossier()); // Utiliser le dossier associé à la prise en charge
+        rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);
     }
