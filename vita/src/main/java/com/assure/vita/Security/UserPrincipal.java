@@ -23,18 +23,17 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(Utilisateur utilisateur) {
         List<GrantedAuthority> authorities = Collections.singletonList(
-            new SimpleGrantedAuthority("ROLE_" + utilisateur.getRole().name())
+                new SimpleGrantedAuthority("ROLE_" + utilisateur.getRole().name())
         );
 
         return new UserPrincipal(
-            utilisateur.getId(),
-            utilisateur.getEmail(),
-            utilisateur.getPassword(),
-            utilisateur.getRole(),
-            authorities
+                utilisateur.getId(),
+                utilisateur.getEmail(),
+                utilisateur.getPassword(),
+                utilisateur.getRole(),
+                authorities
         );
     }
-
     @Override
     public String getUsername() {
         return email;

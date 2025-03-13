@@ -5,6 +5,7 @@ import com.assure.vita.DTO.response.UtilisateurResponseDTO;
 import com.assure.vita.Entity.Utilisateur;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Mapper.UtilisateurMapper;
+import com.assure.vita.Service.Interface.IAuthenticationService;
 import com.assure.vita.Service.Interface.IUtilisateurService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class UtilisateurController {
 
     private final IUtilisateurService utilisateurService;
     private final UtilisateurMapper utilisateurMapper;
-
+    private final IAuthenticationService authService;
     @GetMapping
     @PreAuthorize("hasRole('ADMINISTRATEUR')")
     public ResponseEntity<Page<UtilisateurResponseDTO>> getAllUtilisateurs(
@@ -79,5 +80,13 @@ public class UtilisateurController {
         Pageable pageable = PageRequest.of(page, size);
         Page<Utilisateur> utilisateurPage = utilisateurService.searchUtilisateurs(nom, email, pageable);
         return ResponseEntity.ok(utilisateurPage.map(utilisateurMapper::toDto));
+    }
+
+
+    @PutMapping("/validate/{userId}")
+    @PreAuthorize("hasRole('ADMINISTRATEUR')")
+    public ResponseEntity<String> validateUser(@PathVariable Long userId) {
+        authService.validateUser(userId);
+        return ResponseEntity.ok("Compte utilisateur validé avec succès");
     }
 } 

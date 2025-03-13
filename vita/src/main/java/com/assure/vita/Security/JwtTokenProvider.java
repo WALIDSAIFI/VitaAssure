@@ -30,7 +30,7 @@ public class JwtTokenProvider {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", userPrincipal.getId());
         claims.put("email", userPrincipal.getEmail());
-        claims.put("role", userPrincipal.getRole().name());
+        claims.put("role", userPrincipal.getRole().name()); // Ensure the role is included
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -54,6 +54,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+            log.error("Invalid JWT token: " + ex.getMessage());
             return false;
         }
     }

@@ -28,10 +28,5 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PutMapping("/validate/{userId}")
-    @PreAuthorize("hasAnyRole('ADMINISTRATEUR')")
-    public ResponseEntity<String> validateUser(@PathVariable Long userId) {
-        authService.validateUser(userId);
-        return ResponseEntity.ok("Compte utilisateur validé avec succès");
-    }
+
 } 

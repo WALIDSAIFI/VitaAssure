@@ -3,10 +3,8 @@ package com.assure.vita.Entity;
 import com.assure.vita.Enum.Role;
 import com.assure.vita.Enum.SituationFamiliale;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString
 @Table(name = "utilisateur")
 public class Utilisateur {
     @Id
