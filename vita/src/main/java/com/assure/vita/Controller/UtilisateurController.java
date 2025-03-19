@@ -8,6 +8,7 @@ import com.assure.vita.Mapper.UtilisateurMapper;
 import com.assure.vita.Service.Interface.IAuthenticationService;
 import com.assure.vita.Service.Interface.IUtilisateurService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/utilisateurs")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@Slf4j
 public class UtilisateurController {
 
     private final IUtilisateurService utilisateurService;
@@ -89,4 +91,5 @@ public class UtilisateurController {
         authService.validateUser(userId);
         return ResponseEntity.ok("Compte utilisateur validé avec succès");
     }
+
 } 

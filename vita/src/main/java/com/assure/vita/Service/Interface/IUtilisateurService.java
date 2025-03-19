@@ -1,5 +1,6 @@
 package com.assure.vita.Service.Interface;
 
+import com.assure.vita.DTO.response.UtilisateurResponseDTO;
 import com.assure.vita.Entity.Utilisateur;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,5 @@ public interface IUtilisateurService {
     Utilisateur validerUtilisateur(Long id);
     Utilisateur bloquerUtilisateur(Long id);
     Page<Utilisateur> searchUtilisateurs(String nom, String email, Pageable pageable);
+    UtilisateurResponseDTO getCurrentUser();
 }

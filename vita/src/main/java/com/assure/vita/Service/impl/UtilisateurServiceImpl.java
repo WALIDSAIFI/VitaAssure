@@ -1,14 +1,18 @@
 package com.assure.vita.Service.impl;
 
+import com.assure.vita.DTO.response.UtilisateurResponseDTO;
 import com.assure.vita.Entity.Utilisateur;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Exception.BadRequestException;
+import com.assure.vita.Mapper.UtilisateurMapper;
 import com.assure.vita.Repository.UtilisateurRepository;
 import com.assure.vita.Service.Interface.IUtilisateurService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ import java.util.Optional;
 public class UtilisateurServiceImpl implements IUtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
+    private  final UtilisateurMapper utilisateurMapper;
 
     @Override
     public Page<Utilisateur> getAllUtilisateurs(Pageable pageable) {
@@ -140,5 +145,22 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
         if (utilisateur.getSituationFamiliale() == null) {
             throw new BadRequestException("La situation familiale est obligatoire");
         }
+    }
+
+
+
+    public UtilisateurResponseDTO getUserByUsername(String username) {
+        Utilisateur user = utilisateurRepository.findByEmail(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+        return utilisateurMapper.toDto(user);
+    }
+
+    @Override
+    public UtilisateurResponseDTO getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String currentUsername = authentication.getName();
+       // log.info("Current user: {}", currentUsername);
+        return getUserByUsername(currentUsername);
     }
 } 

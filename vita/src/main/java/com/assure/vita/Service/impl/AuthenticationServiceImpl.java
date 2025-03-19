@@ -93,4 +93,5 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         utilisateur.setValider(true);
         utilisateurRepository.save(utilisateur);
     }
+
 } 
