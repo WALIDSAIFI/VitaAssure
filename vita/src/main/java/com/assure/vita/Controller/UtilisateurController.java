@@ -21,7 +21,6 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/utilisateurs")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
 @Slf4j
 public class UtilisateurController {
 
@@ -47,16 +46,17 @@ public class UtilisateurController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMINISTRATEUR') or @securityService.isCurrentUser(#id)")
+    @PreAuthorize("hasRole('ADMINISTRATEUR') or hasRole('ADHERENT') or @securityService.isCurrentUser(#id)")
     public ResponseEntity<UtilisateurResponseDTO> updateUtilisateur(
             @PathVariable Long id,
             @Valid @RequestBody UtilisateurUpdateDTO updateDTO) {
         Utilisateur utilisateur = utilisateurService.getUtilisateurById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur non trouvé avec l'ID : " + id));
         utilisateurMapper.updateUtilisateur(updateDTO, utilisateur);
         utilisateur = utilisateurService.updateUtilisateur(id, utilisateur);
         return ResponseEntity.ok(utilisateurMapper.toDto(utilisateur));
     }
+
 
     @PutMapping("/{id}/valider")
     @PreAuthorize("hasRole('ADMINISTRATEUR')")
