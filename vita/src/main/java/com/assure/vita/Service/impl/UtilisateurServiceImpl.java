@@ -2,6 +2,7 @@ package com.assure.vita.Service.impl;
 
 import com.assure.vita.DTO.response.UtilisateurResponseDTO;
 import com.assure.vita.Entity.Utilisateur;
+import com.assure.vita.Enum.Role;
 import com.assure.vita.Exception.ResourceNotFoundException;
 import com.assure.vita.Exception.BadRequestException;
 import com.assure.vita.Mapper.UtilisateurMapper;
@@ -29,8 +30,9 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
 
     @Override
     public Page<Utilisateur> getAllUtilisateurs(Pageable pageable) {
-        return utilisateurRepository.findAll(pageable);
+        return utilisateurRepository.findByRole(Role.ADHERENT, pageable);
     }
+
 
     @Override
     public Optional<Utilisateur> getUtilisateurById(Long id) {
@@ -154,6 +156,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
         return utilisateurMapper.toDto(user);
     }
+
 
     @Override
     public UtilisateurResponseDTO getCurrentUser() {

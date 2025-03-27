@@ -8,7 +8,6 @@ import lombok.Data;
 public class DossierRequestDTO {
     @NotNull(message = "L'ID de l'utilisateur est obligatoire")
     private Long utilisateurId;
-    
     private String commentaire;
     private StatutDossier statut = StatutDossier.EN_ATTENTE;
 } 
