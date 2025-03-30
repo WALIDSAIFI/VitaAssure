@@ -1,11 +1,10 @@
 package com.assure.vita.Entity;
 
 import com.assure.vita.Enum.StatutDossier;
+import com.assure.vita.Enum.TypeTraitement;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDate;
 
 @Getter
@@ -27,6 +26,13 @@ public class Dossier {
     @Column(nullable = false)
     private StatutDossier statut = StatutDossier.EN_ATTENTE;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TypeTraitement typeTraitement;  // ➡️ Ajout du type de traitement
+
+    @Column(nullable = false)
+    private Double totalFrais = 0.0;  // ➡️ Ajout du total des frais
+
     @Column(length = 500)
     private String commentaire;
 
@@ -36,10 +42,8 @@ public class Dossier {
     @Column(name = "date_traitement")
     private LocalDate dateTraitement;
 
-
     @PrePersist
     protected void onCreate() {
         this.dateCreation = LocalDate.now();
     }
-
 }

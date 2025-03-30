@@ -65,13 +65,12 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateurMapper.toDto(utilisateur));
     }
 
-    @PutMapping("/{id}/bloquer")
+    @PutMapping("/bloquer/{id}")
     @PreAuthorize("hasRole('ADMINISTRATEUR')")
-    public ResponseEntity<UtilisateurResponseDTO> bloquerUtilisateur(@PathVariable Long id) {
-        Utilisateur utilisateur = utilisateurService.bloquerUtilisateur(id);
-        return ResponseEntity.ok(utilisateurMapper.toDto(utilisateur));
+    public ResponseEntity<String> bloquerUtilisateur(@PathVariable Long id) {
+        utilisateurService.bloquerUtilisateur(id);
+        return ResponseEntity.ok("Utilisateur bloqué avec succès");
     }
-
     @GetMapping("/search")
     @PreAuthorize("hasRole('ADMINISTRATEUR')")
     public ResponseEntity<Page<UtilisateurResponseDTO>> searchUtilisateurs(
