@@ -11,8 +11,10 @@ public interface DossierMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "utilisateur.id", source = "utilisateurId")
+    @Mapping(target = "totalFrais", source = "totalFrais")
     Dossier toEntity(DossierRequestDTO requestDTO);
 
     @Mapping(source = "utilisateur.id", target = "utilisateurId")
+    @Mapping(source = "totalFrais", target = "totalFrais")
     DossierResponseDTO toDto(Dossier dossier);
 } 

@@ -27,11 +27,10 @@ public class Dossier {
     private StatutDossier statut = StatutDossier.EN_ATTENTE;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TypeTraitement typeTraitement;  // ➡️ Ajout du type de traitement
+    private TypeTraitement typeTraitement;
 
     @Column(nullable = false)
-    private Double totalFrais = 0.0;  // ➡️ Ajout du total des frais
+    private Double totalFrais;
 
     @Column(length = 500)
     private String commentaire;

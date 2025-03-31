@@ -41,7 +41,7 @@ public class DossierController {
     }
 
     @GetMapping("/utilisateur/{utilisateurId}")
-    @PreAuthorize("hasRole('ADMINISTRATEUR') or @securityService.isCurrentUser(#utilisateurId)")
+    @PreAuthorize("hasRole('ADHERENT') or @securityService.isCurrentUser(#utilisateurId)")
     public ResponseEntity<Page<DossierResponseDTO>> getDossiersByUtilisateur(
             @PathVariable Long utilisateurId,
             @RequestParam(defaultValue = "0") int page,
@@ -69,7 +69,7 @@ public class DossierController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMINISTRATEUR') or @securityService.isDossierOwner(#id)")
+    @PreAuthorize("hasRole('ADHERENT') or @securityService.isDossierOwner(#id)")
     public ResponseEntity<DossierResponseDTO> getDossierById(
             @PathVariable Long id) {
         Dossier dossier = dossierService.getDossierById(id)

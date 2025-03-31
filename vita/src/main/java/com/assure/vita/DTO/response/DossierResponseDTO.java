@@ -10,5 +10,6 @@ public class DossierResponseDTO {
     private Long utilisateurId;
     private StatutDossier statut;
     private String commentaire;
+    private Double totalFrais ;
     private LocalDate dateTraitement;
 } 
