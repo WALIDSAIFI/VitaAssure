@@ -96,7 +96,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
         // Créer un rapport pour la prise en charge rejetée
         Rapport rapport = new Rapport();
         rapport.setDetails("Prise en charge rejetée - Motif : " + motif);
-        rapport.setDossier(priseEnCharge.getDossier()); // Utiliser le dossier associé à la prise en charge
+      // Utiliser le dossier associé à la prise en charge
         rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);
@@ -117,7 +117,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
         // Créer un rapport pour la prise en charge acceptée
         Rapport rapport = new Rapport();
         rapport.setDetails("Prise en charge acceptée");
-        rapport.setDossier(priseEnCharge.getDossier()); // Utiliser le dossier associé à la prise en charge
+
         rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);

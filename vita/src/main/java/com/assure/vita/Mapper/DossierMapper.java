@@ -16,5 +16,6 @@ public interface DossierMapper {
 
     @Mapping(source = "utilisateur.id", target = "utilisateurId")
     @Mapping(source = "totalFrais", target = "totalFrais")
+    @Mapping(source = "typeTraitement", target = "typeTraitement")
     DossierResponseDTO toDto(Dossier dossier);
 } 

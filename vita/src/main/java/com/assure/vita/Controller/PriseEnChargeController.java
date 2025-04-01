@@ -7,6 +7,7 @@ import com.assure.vita.Mapper.PriseEnChargeMapper;
 import com.assure.vita.Service.Interface.IPriseEnChargeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class PriseEnChargeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Créer une nouvelle prise en charge
+    @PreAuthorize("hasRole('ADHERENT') or @securityService.isCurrentUser(#utilisateurId)")
     @PostMapping
     public PriseEnChargeResponseDTO create(@RequestBody PriseEnChargeRequestDTO requestDTO) {
         PriseEnCharge priseEnCharge = priseEnChargeMapper.toEntity(requestDTO);
@@ -75,4 +76,14 @@ public class PriseEnChargeController {
         return priseEnChargeMapper.toDto(
                 priseEnChargeService.accepterPriseEnCharge(id));
     }
+
+    @PreAuthorize("hasRole('ADHERENT')")
+    @GetMapping("/utilisateur/{utilisateurId}")
+    public List<PriseEnChargeResponseDTO> getPrisesEnChargeByUtilisateur(@PathVariable Long utilisateurId) {
+        return priseEnChargeService.getPriseEnChargeByUtilisateur(utilisateurId)
+                .stream()
+                .map(priseEnChargeMapper::toDto)
+                .toList();
+    }
+
 } 
