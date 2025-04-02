@@ -86,19 +86,18 @@ public class DossierController {
         return ResponseEntity.ok(dossierMapper.toDto(savedDossier));
     }
 
-    @PutMapping("/{id}/accepter")
+    @PutMapping("/accepter/{id}")
     @PreAuthorize("hasRole('ADMINISTRATEUR')")
     public ResponseEntity<DossierResponseDTO> accepterDossier(@PathVariable Long id) {
         Dossier dossier = dossierService.accepterDossier(id);
         return ResponseEntity.ok(dossierMapper.toDto(dossier));
     }
 
-    @PutMapping("/{id}/rejeter")
-    @PreAuthorize("hasRole('ADMINISTRATEUR')")
+    @PutMapping("/rejeter/{id}")
     public ResponseEntity<DossierResponseDTO> rejeterDossier(
-            @PathVariable Long id,
-            @RequestParam String motifRejet) {
-        Dossier dossier = dossierService.rejeterDossier(id, motifRejet);
+            @PathVariable Long id
+            ) {
+        Dossier dossier = dossierService.rejeterDossier(id);
         return ResponseEntity.ok(dossierMapper.toDto(dossier));
     }
 } 

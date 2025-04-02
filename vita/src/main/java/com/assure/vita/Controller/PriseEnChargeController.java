@@ -20,7 +20,7 @@ public class PriseEnChargeController {
     private final IPriseEnChargeService priseEnChargeService;
     private final PriseEnChargeMapper priseEnChargeMapper;
 
-    // Récupérer toutes les prises en charge
+    @PreAuthorize("hasRole('ADMINISTRATEUR')")
     @GetMapping
     public List<PriseEnChargeResponseDTO> getAll() {
         return priseEnChargeService.getAllPrisesEnCharge().stream()
@@ -62,16 +62,16 @@ public class PriseEnChargeController {
     }
 
     // Rejeter une prise en charge
-    @PostMapping("/{id}/rejeter")
+    @PostMapping("/rejeter/{id}")
     public PriseEnChargeResponseDTO rejeter(
-            @PathVariable Long id,
-            @RequestParam String motif) {
+            @PathVariable Long id
+          ) {
         return priseEnChargeMapper.toDto(
-                priseEnChargeService.rejeterPriseEnCharge(id, motif));
+                priseEnChargeService.rejeterPriseEnCharge(id));
     }
 
     // Accepter une prise en charge
-    @PostMapping("/{id}/accepter")
+    @PostMapping("/accepter/{id}/")
     public PriseEnChargeResponseDTO accepter(@PathVariable Long id) {
         return priseEnChargeMapper.toDto(
                 priseEnChargeService.accepterPriseEnCharge(id));

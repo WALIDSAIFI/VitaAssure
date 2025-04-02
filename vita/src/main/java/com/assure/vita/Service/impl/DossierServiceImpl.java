@@ -79,7 +79,7 @@ public class DossierServiceImpl implements IDossierService {
 
     @Override
     @Transactional
-    public Dossier rejeterDossier(Long id, String motifRejet) {
+    public Dossier rejeterDossier(Long id) {
         Dossier dossier = dossierRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Dossier non trouvé avec l'ID : " + id));
 
@@ -87,13 +87,7 @@ public class DossierServiceImpl implements IDossierService {
             throw new BadRequestException("Impossible de rejeter un dossier déjà traité");
         }
 
-        // Créer un rapport de rejet
-        Rapport rapport = new Rapport();
-        rapport.setDetails("Motif de rejet : " + motifRejet);
-        rapport.setDateRapport(LocalDate.now());
-        rapportService.saveRapport(rapport);
 
-        // Mettre à jour le statut du dossier
         dossier.setStatut(StatutDossier.REJETE);
         dossier.setDateTraitement(LocalDate.now());
 

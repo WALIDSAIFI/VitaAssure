@@ -82,7 +82,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
 
     @Override
     @Transactional
-    public PriseEnCharge rejeterPriseEnCharge(Long id, String motif) {
+    public PriseEnCharge rejeterPriseEnCharge(Long id) {
         PriseEnCharge priseEnCharge = priseEnChargeRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Prise en charge non trouvée avec l'ID : " + id));
 
@@ -91,13 +91,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
         }
 
         priseEnCharge.setStatut(StatutPriseEnCharge.REJETEE);
-        priseEnCharge.setCommentaire(motif);
 
-        // Créer un rapport pour la prise en charge rejetée
-        Rapport rapport = new Rapport();
-        rapport.setDetails("Prise en charge rejetée - Motif : " + motif);
-      // Utiliser le dossier associé à la prise en charge
-        rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);
     }
@@ -111,14 +105,7 @@ public class PriseEnChargeServiceImpl implements IPriseEnChargeService {
         if (priseEnCharge.getStatut() != StatutPriseEnCharge.EN_ATTENTE) {
             throw new BadRequestException("Cette prise en charge ne peut plus être acceptée");
         }
-
         priseEnCharge.setStatut(StatutPriseEnCharge.ACCEPTEE);
-
-        // Créer un rapport pour la prise en charge acceptée
-        Rapport rapport = new Rapport();
-        rapport.setDetails("Prise en charge acceptée");
-
-        rapportService.saveRapport(rapport);
 
         return priseEnChargeRepository.save(priseEnCharge);
     }

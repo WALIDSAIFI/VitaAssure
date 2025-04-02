@@ -13,6 +13,6 @@ public interface IPriseEnChargeService {
     PriseEnCharge savePriseEnCharge(PriseEnCharge priseEnCharge);
     PriseEnCharge updatePriseEnCharge(Long id, PriseEnCharge priseEnCharge);
     void deletePriseEnCharge(Long id);
-    PriseEnCharge rejeterPriseEnCharge(Long id, String motifRejet);
+    PriseEnCharge rejeterPriseEnCharge(Long id);
     PriseEnCharge accepterPriseEnCharge(Long id);
 } 
